@@ -12,7 +12,7 @@ go
 create table [roles] (
 	[id] int primary key identity(1, 1),
 	[name] nvarchar(max) not null,
-	[status] int default 1,
+	[status] int default 0,
 	[created_date] date,
 	[updated_date] date
 )
@@ -26,7 +26,7 @@ create table [admins] (
 	[avatar] nvarchar(max),
 	[address] nvarchar(max),
 	[password] nvarchar(max),
-	[status] int default 1,
+	[status] int default 0,
 	[created_date] date,
 	[updated_date] date,
 	[role_id] int,
@@ -37,7 +37,7 @@ go
 create table [brands] (
 	[id] int primary key identity(1, 1),
 	[name] nvarchar(max) not null,
-	[status] int default 1,
+	[status] int default 0,
 	[description] nvarchar(max),
 	[created_date] date,
 	[updated_date] date
@@ -47,7 +47,7 @@ go
 create table [colors] (
 	[id] int primary key identity(1, 1),
 	[name] nvarchar(max) not null,
-	[status] int default 1,
+	[status] int default 0,
 	[description] nvarchar(max),
 	[created_date] date,
 	[updated_date] date
@@ -57,7 +57,7 @@ go
 create table [categories] (
 	[id] int primary key identity(1, 1),
 	[name] nvarchar(max) not null,
-	[status] int default 1,
+	[status] int default 0,
 	[description] nvarchar(max),
 	[created_date] date,
 	[updated_date] date
@@ -67,7 +67,7 @@ go
 create table [materials] (
 	[id] int primary key identity(1, 1),
 	[name] nvarchar(max) not null,
-	[status] int default 1,
+	[status] int default 0,
 	[description] nvarchar(max),
 	[created_date] date,
 	[updated_date] date
@@ -77,7 +77,7 @@ go
 create table [sizes] (
 	[id] int primary key identity(1, 1),
 	[name] nvarchar(max) not null,
-	[status] int default 1,
+	[status] int default 0,
 	[shirt_length] int,
 	[shirt_width] int,
 	[sleeve_length] int,
@@ -91,7 +91,7 @@ go
 create table [discounts] (
 	[id] int primary key identity(1, 1),
 	[name] nvarchar(max) not null,
-	[status] int default 1,
+	[status] int default 0,
 	[description] nvarchar(max),
 	[discount] float,
 	[start_date] date,
@@ -102,7 +102,7 @@ go
 create table [products] (
 	[id] int primary key identity(1, 1),
 	[name] nvarchar(max),
-	[status] int default 1,
+	[status] int default 0,
 	[description] nvarchar(max),
 	[created_date] date,
 	[updated_date] date,
@@ -123,7 +123,7 @@ create table [product_details] (
 	[cost] float,
 	[price] float,
 	[weight] float,
-	[status] int default 1,
+	[status] int default 0,
 	[created_date] date,
 	[updated_date] date,
 	[product_id] int,
