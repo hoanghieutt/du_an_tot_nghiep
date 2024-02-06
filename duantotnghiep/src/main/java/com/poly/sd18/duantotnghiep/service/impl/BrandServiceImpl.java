@@ -1,6 +1,5 @@
 package com.poly.sd18.duantotnghiep.service.impl;
 
-import com.poly.sd18.duantotnghiep.dto.BrandResponse;
 import com.poly.sd18.duantotnghiep.model.Brand;
 import com.poly.sd18.duantotnghiep.repository.BrandRepository;
 import com.poly.sd18.duantotnghiep.service.BrandService;
