@@ -1,0 +1,9 @@
+.icon-button {
+    color: #0091ff;
+    transition: color 0.3s;
+    font-size: 45px;
+}
+
+.icon-button:hover {
+    color: #0066cc;
+}

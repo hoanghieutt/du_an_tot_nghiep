@@ -1,0 +1,30 @@
+package com.poly.sd18.duantotnghiep.controller.admin;
+
+import com.poly.sd18.duantotnghiep.service.ColorService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/admin/colors")
+@RequiredArgsConstructor
+public class ColorController {
+    private final ColorService colorService;
+
+    @GetMapping("")
+    public String getAllColor() {
+        return "admin/color/index";
+    }
+
+    @GetMapping("/add")
+    public String viewAddColor() {
+        return "";
+    }
+
+    @PostMapping("")
+    public String addColor() {
+        return "";
+    }
+}
