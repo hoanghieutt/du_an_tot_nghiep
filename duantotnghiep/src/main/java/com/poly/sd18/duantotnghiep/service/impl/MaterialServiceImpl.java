@@ -25,7 +25,7 @@ public class MaterialServiceImpl implements MaterialService {
 
     @Override
     public Page<Material> getAllMaterialPages(Integer pageNo) {
-        Pageable pageable = PageRequest.of(pageNo - 1, 1);
+        Pageable pageable = PageRequest.of(pageNo - 1, 5);
         return materialRepository.findAll(pageable);
     }
 

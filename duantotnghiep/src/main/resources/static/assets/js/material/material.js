@@ -24,7 +24,7 @@ function saveMaterial() {
     }
 
     var nameRegex = /^[a-zA-ZÀ-ỹ\s]+$/;
-    if (!nameRegex.test(colorName)) {
+    if (!nameRegex.test(materialName)) {
         Swal.fire({
             icon: 'error',
             title: 'Lỗi!',
@@ -33,11 +33,11 @@ function saveMaterial() {
         return;
     }
 
-    var url = materialId ? "/admin/materials/update/" + colorId : "/admin/materials/add";
+    var url = materialId ? "/admin/materials/update/" + materialId : "/admin/materials/add";
     var method = materialId ? "PUT" : "POST";
     var dataToSend = {
         name: materialName,
-        description: colorDescription,
+        description: materialDescription,
     }
     if (materialId) {
         dataToSend.id = materialId;
@@ -82,11 +82,11 @@ function updateMaterialForm(element) {
     // Thực hiện AJAX request để lấy dữ liệu danh mục từ backend
     $.ajax({
         type: 'GET',
-        url: '/admin/materials/formUpdate/' + categoryId,
-        success: function (category) {
+        url: '/admin/materials/formUpdate/' + materialId,
+        success: function (material) {
             // Điền dữ liệu vào các trường biểu mẫu
-            $('#materialName').val(category.name);
-            $('#materialDescription').val(category.description);
+            $('#materialName').val(material.name);
+            $('#materialDescription').val(material.description);
 
             // Hiển thị hộp thoại modal
             $('#MaterialModal').modal('show');
@@ -98,7 +98,7 @@ function updateMaterialForm(element) {
             });
         },
         error: function (error) {
-            console.log('Error fetching category data:', error);
+            console.log('Error fetching material data:', error);
             // Xử lý lỗi nếu cần
         }
     });

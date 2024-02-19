@@ -84,7 +84,7 @@
                                 <div class="form-group">
                                     <label for="materialName">Tên chất liệu:</label>
                                     <input type="text" class="form-control" id="materialName" name="materialName"
-                                           placeholder="Tên màu sắc...">
+                                           placeholder="Tên chất liệu...">
                                 </div>
                                 <div class="form-group">
                                     <label for="materialDescription">Mô Tả:</label>
@@ -150,7 +150,7 @@
                                     </td>
                                     <td>
                                         <a type="button" class="fas fa-edit"
-                                           th:attr="data-color-id=${material.id},id=#{${material.id}}"
+                                           th:attr="data-material-id=${material.id},id=#{${material.id}}"
                                            onclick="updateMaterialForm(this)">
                                         </a>
                                     </td>

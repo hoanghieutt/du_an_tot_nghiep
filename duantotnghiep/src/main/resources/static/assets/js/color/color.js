@@ -84,11 +84,11 @@ function updateColorForm(element) {
     // Thực hiện AJAX request để lấy dữ liệu danh mục từ backend
     $.ajax({
         type: 'GET',
-        url: '/admin/colors/formUpdate/' + categoryId,
-        success: function (category) {
+        url: '/admin/colors/formUpdate/' + colorId,
+        success: function (color) {
             // Điền dữ liệu vào các trường biểu mẫu
-            $('#colorName').val(category.name);
-            $('#colorDescription').val(category.description);
+            $('#colorName').val(color.name);
+            $('#colorDescription').val(color.description);
 
             // Hiển thị hộp thoại modal
             $('#ColorModal').modal('show');
@@ -100,7 +100,7 @@ function updateColorForm(element) {
             });
         },
         error: function (error) {
-            console.log('Error fetching category data:', error);
+            console.log('Error fetching color data:', error);
             // Xử lý lỗi nếu cần
         }
     });
