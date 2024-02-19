@@ -6,6 +6,7 @@ import com.poly.sd18.duantotnghiep.repository.ColorRepository;
 import com.poly.sd18.duantotnghiep.service.ColorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +24,8 @@ public class ColorServiceImpl implements ColorService {
     }
 
     @Override
-    public Page<Color> getAllColorPages(Pageable pageable) {
+    public Page<Color> getAllColorPages(Integer pageNo) {
+        Pageable pageable = PageRequest.of(pageNo - 1, 1);
         return colorRepository.findAll(pageable);
     }
 

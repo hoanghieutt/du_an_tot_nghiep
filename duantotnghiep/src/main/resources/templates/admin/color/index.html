@@ -163,29 +163,24 @@
                         <div class="col-sm-12 col-md-7">
                             <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
                                 <ul class="pagination">
-                                    <li class="paginate_button page-item previous disabled" id="example2_previous">
-                                        <a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">
-                                            Previous
+                                    <li th:if="${currentPage > 1}"
+                                        class="paginate_button page-item previous disabled" id="example2_previous">
+                                        <a th:href="@{'?pageNo=' + ${currentPage - 1}}"
+                                           aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">
+                                            <
                                         </a>
                                     </li>
-                                    <li class="paginate_button page-item active">
-                                        <a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">
-                                            1
+                                    <li th:each="i:${#numbers.sequence(1,totalPage)}"
+                                        th:classappend="${currentPage == i ? 'active' : ''}" class="paginate_button page-item">
+                                        <a th:text="${i}" th:href="@{'?pageNo=' + ${i}}" aria-controls="example2"
+                                           data-dt-idx="1" tabindex="0" class="page-link">
                                         </a>
                                     </li>
-                                    <li class="paginate_button page-item ">
-                                        <a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">
-                                            2
-                                        </a>
-                                    </li>
-                                    <li class="paginate_button page-item ">
-                                        <a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">
-                                            3
-                                        </a>
-                                    </li>
-                                    <li class="paginate_button page-item next" id="example2_next">
-                                        <a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">
-                                            Next
+                                    <li th:if="${currentPage < totalPage}"
+                                        class="paginate_button page-item next" id="example2_next">
+                                        <a  th:href="@{'?pageNo=' + ${currentPage + 1}}"
+                                            aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">
+                                            >
                                         </a>
                                     </li>
                                 </ul>

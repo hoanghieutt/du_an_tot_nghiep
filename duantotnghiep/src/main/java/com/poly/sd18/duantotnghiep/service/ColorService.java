@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ColorService {
     List<Color> getAllColor();
-    Page<Color> getAllColorPages(Pageable pageable);
+    Page<Color> getAllColorPages(Integer pageNo);
     List<Color> searchColorByName(String name);
     List<Color> searchColorByStatus(Integer status);
     Color createColor(ColorDTO colorDTO);

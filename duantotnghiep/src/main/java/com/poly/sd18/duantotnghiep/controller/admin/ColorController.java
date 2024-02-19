@@ -20,19 +20,20 @@ import java.util.List;
 public class ColorController {
     private final ColorService colorService;
 
-    @GetMapping("/findAll")
-    public String getAllColor(Model model) {
-        List<Color> colors = colorService.getAllColor();
-        model.addAttribute("listColor", colors);
-        return "admin/color/index";
-    }
+//    @GetMapping("/findAll")
+//    public String getAllColor(Model model) {
+//        List<Color> colors = colorService.getAllColor();
+//        model.addAttribute("listColor", colors);
+//        return "admin/color/index";
+//    }
 
     @GetMapping("")
-    public String getAllColor(@RequestParam(defaultValue = "0", name = "page") Integer number,
+    public String getAllColor(@RequestParam(defaultValue = "1", name = "pageNo") Integer pageNo,
                               Model model) {
-        Pageable pageable = PageRequest.of(number, 5);
-        Page<Color> listColors = colorService.getAllColorPages(pageable);
+        Page<Color> listColors = colorService.getAllColorPages(pageNo);
         model.addAttribute("listColor", listColors);
+        model.addAttribute("totalPage", listColors.getTotalPages());
+        model.addAttribute("currentPage", pageNo);
         return "admin/color/index";
     }
 
