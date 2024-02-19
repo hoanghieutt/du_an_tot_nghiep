@@ -1,5 +1,6 @@
 package com.poly.sd18.duantotnghiep.controller.admin;
 
+import com.poly.sd18.duantotnghiep.dto.CategoryRequest;
 import com.poly.sd18.duantotnghiep.model.Category;
 import com.poly.sd18.duantotnghiep.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -25,6 +29,16 @@ public class CategoryController {
         model.addAttribute("totalPages", lists.getTotalPages());
         model.addAttribute("currentPage", pageNum);
         return "/admin/category/index";
+    }
+
+    @PostMapping("/checkDuplicateName")
+    public ResponseEntity<?> checkDuplicateName(@RequestBody CategoryRequest categoryRequest){
+        List<Category> lists = categoryService.findByName(categoryRequest.getName());
+        boolean isDuplicateName = false;
+        if(lists.isEmpty()){
+            isDuplicateName = true;
+        }
+        return ResponseEntity.ok(Map.of("isDuplicateName",isDuplicateName));
     }
 
     @PostMapping("/add")

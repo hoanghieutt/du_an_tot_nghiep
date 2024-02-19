@@ -3,6 +3,8 @@ package com.poly.sd18.duantotnghiep.service;
 import com.poly.sd18.duantotnghiep.model.Category;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 
 public interface CategoryService {
     Page<Category> getAll(int pageNum);
@@ -12,6 +14,8 @@ public interface CategoryService {
     Page<Category> searchByStatus(int pageNum,String name, int status);
 
     Category findById(int id);
+
+    List<Category> findByName(String name);
 
     Category add(Category category);
 

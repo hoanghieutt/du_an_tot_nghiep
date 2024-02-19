@@ -80,9 +80,6 @@ create table [sizes] (
 	[status] int default 0,
 	[shirt_length] int,
 	[shirt_width] int,
-	[sleeve_length] int,
-	[shoulder_length] int,
-	[description] nvarchar(max),
 	[created_date] date,
 	[updated_date] date
 );

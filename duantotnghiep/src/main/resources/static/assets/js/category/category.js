@@ -33,6 +33,16 @@ function saveCategory() {
         return;
     }
 
+    // Kiểm tra trùng tên danh mục
+    if (!checkDuplicateCategory(categoryName)) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Lỗi!',
+            text: 'Tên danh mục đã tồn tại!'
+        });
+        return;
+    }
+
     var url = categoryId ? "/admin/category/update/" + categoryId : "/admin/category/add";
 
     var method = categoryId ? "PUT" : "POST";
@@ -78,6 +88,27 @@ function saveCategory() {
         }
     });
 }
+
+// Check trùng Tên danh mục
+function checkDuplicateCategory(categoryName) {
+    var isDuplicateName;
+    // Gửi yêu cầu AJAX để kiểm tra trùng tên danh mục
+    $.ajax({
+        type: "POST",
+        url: "/admin/category/checkDuplicateName",
+        contentType: "application/json",
+        data: JSON.stringify({name: categoryName}),
+        async: false,
+        success: function (response) {
+            isDuplicateName = response.isDuplicateName;
+        },
+        error: function (error) {
+            console.error("Lỗi khi kiểm tra trùng tên danh mục:", error);
+        }
+    });
+    return isDuplicateName;
+}
+
 
 // Hàm để cập nhật biểu mẫu với dữ liệu danh mục
 function updateCategoryForm(element) {
