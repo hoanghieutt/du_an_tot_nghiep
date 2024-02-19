@@ -19,7 +19,8 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Quản lý danh mục</h1>
+                        <h1 class="m-0"><i class="fa-solid fa-layer-group fa-sm"></i> <strong>QUẢN LÝ DANH MỤC</strong>
+                        </h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -33,44 +34,48 @@
         <!-- /.content-header -->
 
         <!-- Main content -->
-        <div class="card">
-
-            <!--Card-header-->
-            <!-- Thêm, hộp thoại tìm kiếm và nút -->
-            <form th:action="@{/admin/category/searchAll}" method="get">
-                <!-- Thêm, hộp thoại tìm kiếm và nút -->
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <div class="mr-2">
-                        <!--Icon thêm-->
-                        <i type="button" class="fa-solid fa-square-plus icon-button" id="showFormAdd"></i>
-                    </div>
-                    <div class="input-group w-50">
-                        <input type="text" class="form-control" placeholder="Tìm kiếm..." name="searchInput"
-                               th:value="${searchInput}">
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-outline-secondary">Tìm kiếm</button>
+        <div class="main_content">
+            <div class="card">
+                <form th:action="@{/admin/category/searchAll}" method="get">
+                    <!-- Thêm, hộp thoại tìm kiếm và nút -->
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <!-- Thêm -->
+                        <div class="mr-2">
+                            <i type="button" class="fa-solid fa-square-plus icon-button" id="showFormAdd"></i>
+                        </div>
+                        <!-- Hộp thoại tìm kiếm -->
+                        <div class="input-group w-50">
+                            <input type="text" class="form-control" placeholder="Tìm kiếm..." name="searchInput"
+                                   th:value="${searchInput}">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-outline-secondary">Tìm kiếm</button>
+                            </div>
+                        </div>
+                        <!-- Trạng thái -->
+                        <div class="ml-auto d-flex align-items-center">
+                            <!-- Biểu tượng làm mới-->
+                            <div class="mr-3">
+                                <a th:href="@{/admin/category}" class="fas fa-sync-alt" id="refreshIcon"></a>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="categoryStatus" value="-1"
+                                       th:checked="${categoryStatus == null || categoryStatus == -1}">
+                                <label class="form-check-label">Tất cả</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="categoryStatus" value="0"
+                                       th:checked="${categoryStatus == 0}">
+                                <label class="form-check-label">Hoạt động</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="categoryStatus" value="1"
+                                       th:checked="${categoryStatus == 1}">
+                                <label class="form-check-label">Không hoạt động</label>
+                            </div>
                         </div>
                     </div>
-                    <div class="ml-auto d-flex align-items-center">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="categoryStatus" value="-1"
-                                   th:checked="${categoryStatus == null || categoryStatus == -1}">
-                            <label class="form-check-label">Tất cả</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="categoryStatus" value="0"
-                                   th:checked="${categoryStatus == 0}">
-                            <label class="form-check-label">Hoạt động</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="categoryStatus" value="1"
-                                   th:checked="${categoryStatus == 1}">
-                            <label class="form-check-label">Không hoạt động</label>
-                        </div>
-                    </div>
-                </div>
-            </form>
-
+                </form>
+            </div>
 
             <!-- Modal -->
             <div class="modal fade" id="CategoryModal" tabindex="-1" role="dialog"
@@ -106,105 +111,129 @@
                 </div>
             </div>
 
-            <!-- /.card-header -->
-            <div class="card-body">
-                <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6"></div>
-                        <div class="col-sm-12 col-md-6"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <table id="example2" class="table table-bordered table-hover dataTable dtr-inline"
-                                   aria-describedby="example2_info">
-                                <thead>
-                                <tr>
-                                    <th class="sorting sorting_asc" tabindex="0" aria-controls="example2" rowspan="1"
-                                        colspan="1" aria-sort="ascending"
-                                        aria-label="Rendering engine: activate to sort column descending">STT
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
-                                        aria-label="Browser: activate to sort column ascending">Tên danh mục
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
-                                        aria-label="Platform(s): activate to sort column ascending">Mô tả
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
-                                        aria-label="Engine version: activate to sort column ascending">Trạng thái
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
-                                        aria-label="CSS grade: activate to sort column ascending">Hành động
-                                    </th>
-                                </tr>
-                                </thead>
+            <div class="card">
+                <!--Card-header-->
+                <div class="card-header">
+                    <h3 class="card-title"><strong>Danh sách danh mục</strong></h3>
+                </div>
+                <!-- /.card-header -->
 
-                                <tbody th:each="category, index : ${lists}">
-                                <tr class="even">
-                                    <td class="dtr-control sorting_1" tabindex="0" th:text="${index.index + 1}"></td>
-                                    <td th:text="${category.name}"></td>
-                                    <td th:text="${category.description}"></td>
-                                    <td>
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input"
-                                                   th:checked="${category.status == 0}"
-                                                   th:attr="data-category-id=${category.id},id=#{${category.id}}"
-                                                   onclick="toggleStatus(this)" id="toggleSwitch${category.id}">
-                                            <label class="custom-control-label"
-                                                   th:attr="for=#{${category.id}}"></label>
-                                        </div>
-                                    </td>
-                                    <td><a type="button"
-                                           class="fas fa-edit"
-                                           th:attr="data-category-id=${category.id},id=#{${category.id}}"
-                                           onclick="updateCategoryForm(this)"></a>
-                                    </td>
-                                </tr>
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th rowspan="1" colspan="1">STT</th>
-                                    <th rowspan="1" colspan="1">Tên danh mục</th>
-                                    <th rowspan="1" colspan="1">Mô tả</th>
-                                    <th rowspan="1" colspan="1">Trạng thái</th>
-                                    <th rowspan="1" colspan="1">Hành động</th>
-                                </tr>
-                                </tfoot>
-                            </table>
+                <!--Card-body-->
+                <div class="card-body">
+                    <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6"></div>
+                            <div class="col-sm-12 col-md-6"></div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-5">
-                            <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
-                                <a>Hiển thị <strong>[[${lists.getNumberOfElements()}]]</strong> trên tổng số <strong>[[${totalCategories}]]</strong></a>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="example2" class="table table-bordered table-hover dataTable dtr-inline"
+                                       aria-describedby="example2_info">
+                                    <thead>
+                                    <tr class="thead_tr">
+                                        <th class="sorting sorting_asc stt" tabindex="0" aria-controls="example2"
+                                            rowspan="1"
+                                            colspan="1" aria-sort="ascending"
+                                        >STT
+                                        </th>
+                                        <th class="sorting ten_danh_muc" tabindex="0" aria-controls="example2"
+                                            rowspan="1"
+                                            colspan="1"
+                                        >Tên danh mục
+                                        </th>
+                                        <th class="sorting mo_ta" tabindex="0" aria-controls="example2" rowspan="1"
+                                            colspan="1"
+                                        >Mô tả
+                                        </th>
+                                        <th class="sorting trang_thai" tabindex="0" aria-controls="example2" rowspan="1"
+                                            colspan="1"
+                                        >Trạng thái
+                                        </th>
+                                        <th class="sorting hanh_dong" tabindex="0" aria-controls="example2" rowspan="1"
+                                            colspan="1"
+                                        >Hành động
+                                        </th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody th:if="${lists.empty}">
+                                    <tr>
+                                        <td colspan="5" class="text-center">Danh sách trống!</td>
+                                    </tr>
+                                    </tbody>
+
+                                    <tbody th:each="category, index : ${lists}">
+                                    <tr class="even">
+                                        <td class="dtr-control sorting_1 stt" tabindex="0"
+                                            th:text="${index.index + 1}"></td>
+                                        <td class="ten_danh_muc" th:text="${category.name}"></td>
+                                        <td class="mo_ta" th:text="${category.description}"></td>
+                                        <td class="trang_thai">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input"
+                                                       th:checked="${category.status == 0}"
+                                                       th:attr="data-category-id=${category.id},id=#{${category.id}}"
+                                                       onclick="toggleStatus(this)" id="toggleSwitch${category.id}">
+                                                <label class="custom-control-label"
+                                                       th:attr="for=#{${category.id}}"></label>
+                                            </div>
+                                        </td>
+                                        <td class="hanh_dong"><a type="button"
+                                                                 class="fa-solid fa-pen-to-square fa-xl"
+                                                                 th:attr="data-category-id=${category.id},id=#{${category.id}}"
+                                                                 onclick="updateCategoryForm(this)"></a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr class="tfoot_tr">
+                                        <th rowspan="1" colspan="1">STT</th>
+                                        <th rowspan="1" colspan="1">Tên danh mục</th>
+                                        <th rowspan="1" colspan="1">Mô tả</th>
+                                        <th rowspan="1" colspan="1">Trạng thái</th>
+                                        <th rowspan="1" colspan="1">Hành động</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+                                    <a>Hiển thị <strong>[[${lists.getNumberOfElements()}]]</strong> trên tổng số
+                                        <strong>[[${totalCategories}]]</strong></a>
+                                </div>
+                            </div>
 
-                        <div class="col-sm-12 col-md-7">
-                            <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+                            <!--Pagination-->
+                            <nav th:if="${not lists.empty}" aria-label="Page navigation col-sm-12 col-md-7">
                                 <ul class="pagination">
-                                    <li th:class="${currentPage == 1 ? 'paginate_button page-item previous disabled' : 'paginate_button page-item previous'}"
-                                        id="example2_previous"><a
-                                            th:href="@{/admin/category(pageNum=${currentPage - 1})}"
-                                            tabindex="0"
-                                            class="page-link">Previous</a></li>
+                                    <li th:class="${currentPage == 1 ? 'page-item disabled' : 'page-item'}">
+                                        <a th:href="@{/admin/category(pageNum=${currentPage - 1})}"
+                                           tabindex="0"
+                                           class="page-link" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
                                     <li th:each="i:${#numbers.sequence(1,totalPages)}"
-                                        th:class="${currentPage == i ? 'paginate_button page-item active' : 'paginate_button page-item'}">
+                                        th:class="${currentPage == i ? 'page-item active' : 'page-item'}">
                                         <a th:href="@{/admin/category(pageNum=${i})}" th:text="${i}"
-                                           aria-controls="example2"
-                                           data-dt-idx="1" tabindex="0"
                                            class="page-link"></a>
                                     </li>
-                                    <li th:class="${currentPage == totalPages ? 'paginate_button page-item next disabled' : 'paginate_button page-item next'}"
-                                        id="example2_next"><a th:href="@{/admin/category(pageNum=${currentPage + 1})}"
-                                                              class="page-link">Next</a>
+                                    <li th:class="${currentPage == totalPages ? 'page-item disabled' : 'page-item'}">
+                                        <a th:href="@{/admin/category(pageNum=${currentPage + 1})}" class="page-link"
+                                           aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
                                     </li>
                                 </ul>
-                            </div>
+                            </nav>
+
                         </div>
                     </div>
                 </div>
+                <!-- /.card-body -->
             </div>
-            <!-- /.card-body -->
         </div>
         <!-- /.content -->
     </div>
