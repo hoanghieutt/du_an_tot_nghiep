@@ -1,16 +1,15 @@
 package com.poly.sd18.duantotnghiep.service;
 
-import com.poly.sd18.duantotnghiep.model.Brand;
 import com.poly.sd18.duantotnghiep.model.Category;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
 
 public interface CategoryService {
-    List<Category> getAll();
+    Page<Category> getAll(int pageNum);
 
-    List<Category> searchAll(String name);
+    Page<Category> searchAll(int pageNum,String name);
 
-    List<Category> searchByStatus(String name, int status);
+    Page<Category> searchByStatus(int pageNum,String name, int status);
 
     Category findById(int id);
 

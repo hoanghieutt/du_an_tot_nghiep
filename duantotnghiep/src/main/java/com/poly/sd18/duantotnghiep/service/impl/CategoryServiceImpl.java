@@ -1,11 +1,12 @@
 package com.poly.sd18.duantotnghiep.service.impl;
 
-import com.poly.sd18.duantotnghiep.model.Brand;
 import com.poly.sd18.duantotnghiep.model.Category;
-import com.poly.sd18.duantotnghiep.repository.BrandRepository;
 import com.poly.sd18.duantotnghiep.repository.CategoryRepository;
 import com.poly.sd18.duantotnghiep.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,18 +17,21 @@ public class CategoryServiceImpl implements CategoryService {
     CategoryRepository categoryRepository;
 
     @Override
-    public List<Category> getAll() {
-        return categoryRepository.findAll();
+    public Page<Category> getAll(int pageNum) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 5);
+        return categoryRepository.findAll(pageable);
     }
 
     @Override
-    public List<Category> searchAll(String name) {
-        return categoryRepository.searchAll(name);
+    public Page<Category> searchAll(int pageNum, String name) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 5);
+        return categoryRepository.searchAll(pageable, name);
     }
 
     @Override
-    public List<Category> searchByStatus(String name, int status) {
-        return categoryRepository.searchByStatus(name, status);
+    public Page<Category> searchByStatus(int pageNum, String name, int status) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 5);
+        return categoryRepository.searchByStatus(pageable, name, status);
     }
 
     @Override

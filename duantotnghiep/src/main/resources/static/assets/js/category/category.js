@@ -89,12 +89,12 @@ function updateCategoryForm(element) {
         type: 'GET',
         url: '/admin/category/formUpdate/' + categoryId,
         success: function (category) {
+            // Hiển thị hộp thoại modal
+            $('#CategoryModal').modal('show');
+
             // Điền dữ liệu vào các trường biểu mẫu
             $('#categoryName').val(category.name);
             $('#categoryDescription').val(category.description);
-
-            // Hiển thị hộp thoại modal
-            $('#CategoryModal').modal('show');
 
             // Lắng nghe sự kiện đóng modal
             $('#CategoryModal').on('hidden.bs.modal', function () {
@@ -138,27 +138,6 @@ function toggleStatus(checkbox) {
                 title: 'Lỗi!',
                 text: 'Có lỗi xảy ra khi cập nhật trạng thái.'
             });
-        }
-    });
-}
-
-// Search All
-function searchAll() {
-    var searchInput = $("#searchInput").val().trim();
-    // Gửi yêu cầu AJAX
-    $.ajax({
-        type: 'GET',
-        url: "/admin/category/searchAll",
-        contentType: "application/json",
-        data: {
-            name: searchInput
-        },
-        success: function (response) {
-            console.log(response);
-            window.location.href = '/admin/category/searchAll?name=' + encodeURIComponent(searchInput);
-        },
-        error: function (error) {
-            console.log(error)
         }
     });
 }

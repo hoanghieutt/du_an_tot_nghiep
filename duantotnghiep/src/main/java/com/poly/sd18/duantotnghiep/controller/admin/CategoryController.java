@@ -3,12 +3,12 @@ package com.poly.sd18.duantotnghiep.controller.admin;
 import com.poly.sd18.duantotnghiep.model.Category;
 import com.poly.sd18.duantotnghiep.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @Controller
 @RequestMapping("/admin/category")
@@ -17,9 +17,13 @@ public class CategoryController {
     CategoryService categoryService;
 
     @GetMapping()
-    public String getAll(Model model) {
-        List<Category> lists = categoryService.getAll();
+    public String getAll(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+                         Model model) {
+        Page<Category> lists = categoryService.getAll(pageNum);
         model.addAttribute("lists", lists);
+        model.addAttribute("totalCategories", lists.getTotalElements());
+        model.addAttribute("totalPages", lists.getTotalPages());
+        model.addAttribute("currentPage", pageNum);
         return "/admin/category/index";
     }
 
@@ -40,9 +44,22 @@ public class CategoryController {
     }
 
     @GetMapping("/searchAll")
-    public String search(@RequestParam("name") String name, Model model) {
-        List<Category> lists = categoryService.searchAll(name);
-        model.addAttribute("lists",lists);
+    public String search(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+                         @RequestParam("searchInput") String name,
+                         @RequestParam("categoryStatus") int status,
+                         Model model) {
+        Page<Category> lists;
+        if (status == -1) {
+            lists = categoryService.searchAll(pageNum, name);
+        } else {
+            lists = categoryService.searchByStatus(pageNum, name, status);
+        }
+        model.addAttribute("lists", lists);
+        model.addAttribute("totalCategories", lists.getTotalElements());
+        model.addAttribute("totalPages", lists.getTotalPages());
+        model.addAttribute("currentPage", pageNum);
+        model.addAttribute("searchInput", name);
+        model.addAttribute("categoryStatus", status);
         return "/admin/category/index";
     }
 
