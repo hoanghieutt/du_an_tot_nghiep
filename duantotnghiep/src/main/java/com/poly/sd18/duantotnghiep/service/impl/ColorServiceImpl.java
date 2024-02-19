@@ -5,6 +5,8 @@ import com.poly.sd18.duantotnghiep.model.ColorDTO;
 import com.poly.sd18.duantotnghiep.repository.ColorRepository;
 import com.poly.sd18.duantotnghiep.service.ColorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,8 +23,13 @@ public class ColorServiceImpl implements ColorService {
     }
 
     @Override
+    public Page<Color> getAllColorPages(Pageable pageable) {
+        return colorRepository.findAll(pageable);
+    }
+
+    @Override
     public List<Color> searchColorByName(String name) {
-        return null;
+        return colorRepository.searchColorByName(name);
     }
 
     @Override
@@ -35,6 +42,7 @@ public class ColorServiceImpl implements ColorService {
         Color color = Color.builder()
                 .name(colorDTO.getName())
                 .description(colorDTO.getDescription())
+                .status(0)
                 .build();
         return colorRepository.save(color);
     }

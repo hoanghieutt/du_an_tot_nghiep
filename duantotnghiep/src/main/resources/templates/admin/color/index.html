@@ -45,7 +45,9 @@
                 <div class="input-group w-50">
                     <input type="text" class="form-control" placeholder="Tìm kiếm..." id="searchInput">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" id="searchButton" onclick="searchAll()">Tìm kiếm</button>
+                        <button class="btn btn-outline-secondary" type="button" id="searchButton" onclick="searchAll()">
+                            Tìm kiếm
+                        </button>
                     </div>
                 </div>
                 <div class="ml-auto d-flex align-items-center">
@@ -66,33 +68,33 @@
 
 
             <!-- Modal -->
-            <div class="modal fade" id="CategoryModal" tabindex="-1" role="dialog"
+            <div class="modal fade" id="ColorModal" tabindex="-1" role="dialog"
                  aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Thêm Màu Sắc</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Thêm màu sắc</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <!-- Your form fields for category name and description go here -->
-                            <form id="categoryForm">
+                            <form id="colorForm">
                                 <div class="form-group">
-                                    <label for="categoryName">Tên màu sắc:</label>
-                                    <input type="text" class="form-control" id="categoryName" name="categoryName"
-                                           placeholder="Tên danh mục...">
+                                    <label for="colorName">Tên màu sắc:</label>
+                                    <input type="text" class="form-control" id="colorName" name="colorName"
+                                           placeholder="Tên màu sắc...">
                                 </div>
                                 <div class="form-group">
-                                    <label for="categoryDescription">Mô Tả:</label>
-                                    <textarea class="form-control" id="categoryDescription" name="categoryDescription"
+                                    <label for="colorDescription">Mô Tả:</label>
+                                    <textarea class="form-control" id="colorDescription" name="colorDescription"
                                               rows="3" placeholder="Mô tả..."></textarea>
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" onclick="saveCategory()">Lưu</button>
+                            <button type="button" class="btn btn-primary" onclick="saveColor()">Lưu</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                         </div>
                     </div>
@@ -131,75 +133,60 @@
                                 </tr>
                                 </thead>
 
-                                <tbody th:each="category, index : ${lists}">
+                                <tbody th:each="color, index : ${listColor}">
                                 <tr class="even">
                                     <td class="dtr-control sorting_1" tabindex="0" th:text="${index.index + 1}"></td>
-                                    <td th:text="${category.name}"></td>
-                                    <td th:text="${category.description}"></td>
+                                    <td th:text="${color.name}"></td>
+                                    <td th:text="${color.description}"></td>
                                     <td>
                                         <div class="custom-control custom-switch">
                                             <input type="checkbox" class="custom-control-input"
-                                                   th:checked="${category.status == 0}"
-                                                   th:attr="data-category-id=${category.id},id=#{${category.id}}"
-                                                   onclick="toggleStatus(this)" id="toggleSwitch${category.id}">
+                                                   th:checked="${color.status == 0}"
+                                                   th:attr="data-color-id=${color.id},id=#{${color.id}}"
+                                                   onclick="toggleStatus(this)" id="toggleSwitch${color.id}">
                                             <label class="custom-control-label"
-                                                   th:attr="for=#{${category.id}}"></label>
+                                                   th:attr="for=#{${color.id}}"></label>
                                         </div>
                                     </td>
-                                    <td><a type="button"
-                                           class="fas fa-edit"
-                                           th:attr="data-category-id=${category.id},id=#{${category.id}}"
-                                           onclick="updateCategoryForm(this)"></a>
+                                    <td>
+                                        <a type="button" class="fas fa-edit"
+                                           th:attr="data-color-id=${color.id},id=#{${color.id}}"
+                                           onclick="updateColorForm(this)">
+                                        </a>
                                     </td>
                                 </tr>
                                 </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th rowspan="1" colspan="1">STT</th>
-                                    <th rowspan="1" colspan="1">Tên màu sắc</th>
-                                    <th rowspan="1" colspan="1">Mô tả</th>
-                                    <th rowspan="1" colspan="1">Trạng thái</th>
-                                    <th rowspan="1" colspan="1">Hành động</th>
-                                </tr>
-                                </tfoot>
                             </table>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12 col-md-5">
-                            <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1
-                                to 10 of 57 entries
-                            </div>
-                        </div>
                         <div class="col-sm-12 col-md-7">
                             <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
                                 <ul class="pagination">
-                                    <li class="paginate_button page-item previous disabled" id="example2_previous"><a
-                                            href="#" aria-controls="example2" data-dt-idx="0" tabindex="0"
-                                            class="page-link">Previous</a></li>
-                                    <li class="paginate_button page-item active"><a href="#" aria-controls="example2"
-                                                                                    data-dt-idx="1" tabindex="0"
-                                                                                    class="page-link">1</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="example2"
-                                                                              data-dt-idx="2" tabindex="0"
-                                                                              class="page-link">2</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="example2"
-                                                                              data-dt-idx="3" tabindex="0"
-                                                                              class="page-link">3</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="example2"
-                                                                              data-dt-idx="4" tabindex="0"
-                                                                              class="page-link">4</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="example2"
-                                                                              data-dt-idx="5" tabindex="0"
-                                                                              class="page-link">5</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="example2"
-                                                                              data-dt-idx="6" tabindex="0"
-                                                                              class="page-link">6</a></li>
-                                    <li class="paginate_button page-item next" id="example2_next"><a href="#"
-                                                                                                     aria-controls="example2"
-                                                                                                     data-dt-idx="7"
-                                                                                                     tabindex="0"
-                                                                                                     class="page-link">Next</a>
+                                    <li class="paginate_button page-item previous disabled" id="example2_previous">
+                                        <a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">
+                                            Previous
+                                        </a>
+                                    </li>
+                                    <li class="paginate_button page-item active">
+                                        <a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">
+                                            1
+                                        </a>
+                                    </li>
+                                    <li class="paginate_button page-item ">
+                                        <a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">
+                                            2
+                                        </a>
+                                    </li>
+                                    <li class="paginate_button page-item ">
+                                        <a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">
+                                            3
+                                        </a>
+                                    </li>
+                                    <li class="paginate_button page-item next" id="example2_next">
+                                        <a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">
+                                            Next
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
@@ -224,6 +211,6 @@
 
 <!-- ./script -->
 <div th:replace="~{admin/layout/script :: script}"></div>
-<script th:src="@{/assets/js/category/category.js}"></script>
+<script th:src="@{/assets/js/color/color.js}"></script>
 </body>
 </html>
