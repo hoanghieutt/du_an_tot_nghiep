@@ -20,4 +20,13 @@ public class Size extends BaseEntity implements Serializable {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "shirt_length")
+    private Integer shirtLength;
+
+    @Column(name = "shirt_width")
+    private Integer shirtWidth;
+
+    @Column( name = "status")
+    private Integer status;
 }

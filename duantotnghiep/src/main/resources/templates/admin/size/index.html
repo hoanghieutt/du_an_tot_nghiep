@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/layout/head :: head}"></head>
+<link rel="stylesheet" th:href="@{/assets/css/category/category.css}">
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <nav th:replace="~{admin/layout/header :: header}"></nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside th:replace="~{admin/layout/sidebar :: sidebar}"></aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Quản lý kích thước</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a th:href="@{/admin}">Home</a></li>
+                            <li class="breadcrumb-item active">Kích thước</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <div class="card">
+
+            <!--Card-header-->
+            <!-- Thêm, hộp thoại tìm kiếm và nút -->
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="mr-2">
+                    <!--Icon thêm-->
+                    <i type="button" class="fa-solid fa-square-plus icon-button" id="showFormAdd"></i>
+                </div>
+                <div class="input-group w-50">
+                    <input type="text" class="form-control" placeholder="Tìm kiếm..." id="searchInput">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="searchButton" onclick="searchAll()">
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </div>
+                <div class="ml-auto d-flex align-items-center">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="filterRadio" id="showAllRadio" checked>
+                        <label class="form-check-label" for="showAllRadio">Tất cả</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="filterRadio" id="showActiveRadio">
+                        <label class="form-check-label" for="showActiveRadio">Hoạt động</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="filterRadio" id="showInactiveRadio">
+                        <label class="form-check-label" for="showInactiveRadio">Không hoạt động</label>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="SizeModal" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Thêm kích thước</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Your form fields for category name and description go here -->
+                            <form id="sizeForm">
+                                <div class="form-group">
+                                    <label for="sizeName">Tên kích thước:</label>
+                                    <input type="text" class="form-control" id="sizeName" name="sizeName"
+                                           placeholder="Tên kích thước...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="sizeShirtLength">Chiều dài:</label>
+                                    <input type="number" min="0" class="form-control" id="sizeShirtLength" name="sizeShirtLength">
+                                </div>
+                                <div class="form-group">
+                                    <label for="sizeShirtWidth">Chiều rộng:</label>
+                                    <input type="number" min="0" class="form-control" id="sizeShirtWidth" name="sizeShirtWidth">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" onclick="saveSize()">Lưu</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6"></div>
+                        <div class="col-sm-12 col-md-6"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="example2" class="table table-bordered table-hover dataTable dtr-inline"
+                                   aria-describedby="example2_info">
+                                <thead>
+                                <tr>
+                                    <th class="sorting sorting_asc" tabindex="0" aria-controls="example2" rowspan="1"
+                                        colspan="1" aria-sort="ascending"
+                                        aria-label="Rendering engine: activate to sort column descending">STT
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                        aria-label="Browser: activate to sort column ascending">Tên kích thước
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                        aria-label="Platform(s): activate to sort column ascending">Chiều rộng
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                        aria-label="Platform(s): activate to sort column ascending">Chiều dài
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                        aria-label="Engine version: activate to sort column ascending">Trạng thái
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                        aria-label="CSS grade: activate to sort column ascending">Hành động
+                                    </th>
+                                </tr>
+                                </thead>
+
+                                <tbody th:each="size, index : ${listSize}">
+                                <tr class="even">
+                                    <td class="dtr-control sorting_1" tabindex="0" th:text="${index.index + 1}"></td>
+                                    <td th:text="${size.name}"></td>
+                                    <td th:text="${size.shirtLength}"></td>
+                                    <td th:text="${size.shirtWidth}"></td>
+                                    <td>
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                   th:checked="${size.status == 0}"
+                                                   th:attr="data-size-id=${size.id},id=#{${size.id}}"
+                                                   onclick="toggleStatus(this)" id="toggleSwitch${size.id}">
+                                            <label class="custom-control-label"
+                                                   th:attr="for=#{${size.id}}"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a type="button" class="fas fa-edit"
+                                           th:attr="data-size-id=${size.id},id=#{${size.id}}"
+                                           onclick="updateSizeForm(this)">
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-7">
+                            <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+                                <ul class="pagination">
+                                    <li th:if="${currentPage > 1}"
+                                        class="paginate_button page-item previous disabled" id="example2_previous">
+                                        <a th:href="@{'?pageNo=' + ${currentPage - 1}}"
+                                           aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">
+                                            <
+                                        </a>
+                                    </li>
+                                    <li th:each="i:${#numbers.sequence(1,totalPage)}"
+                                        th:classappend="${currentPage == i ? 'active' : ''}" class="paginate_button page-item">
+                                        <a th:text="${i}" th:href="@{'?pageNo=' + ${i}}" aria-controls="example2"
+                                           data-dt-idx="1" tabindex="0" class="page-link">
+                                        </a>
+                                    </li>
+                                    <li th:if="${currentPage < totalPage}"
+                                        class="paginate_button page-item next" id="example2_next">
+                                        <a  th:href="@{'?pageNo=' + ${currentPage + 1}}"
+                                            aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">
+                                            >
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <footer th:replace="~{admin/layout/footer :: footer}"></footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- ./script -->
+<div th:replace="~{admin/layout/script :: script}"></div>
+<script th:src="@{/assets/js/size/size.js}"></script>
+</body>
+</html>
