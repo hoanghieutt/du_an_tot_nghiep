@@ -1,20 +1,20 @@
 //Show form
 $(document).ready(function () {
     $('#showFormAdd').click(function () {
-        $('#ColorModal').modal('show');
+        $('#MaterialModal').modal('show');
     });
 });
 
 //Add and update color
-function saveColor() {
+function saveMaterial() {
     // Lấy dữ liệu từ biểu mẫu
-    var colorName = $("#colorName").val().trim();
-    var colorDescription = $("#colorDescription").val().trim();
+    var materialName = $("#materialName").val().trim();
+    var materialDescription = $("#materialDescription").val().trim();
     var currentTime = moment().format('YYYY-MM-DD');
-    var colorId = $("#colorForm").attr("color-id-update");
+    var materialId = $("#materialForm").attr("material-id-update");
 
     // Kiểm tra xem các trường có rỗng không
-    if (colorName === "" || colorDescription === "") {
+    if (materialName === "" || materialDescription === "") {
         Swal.fire({
             icon: 'error',
             title: 'Lỗi!',
@@ -33,14 +33,14 @@ function saveColor() {
         return;
     }
 
-    var url = colorId ? "/admin/colors/update/" + colorId : "/admin/colors/add";
-    var method = colorId ? "PUT" : "POST";
+    var url = materialId ? "/admin/materials/update/" + colorId : "/admin/materials/add";
+    var method = materialId ? "PUT" : "POST";
     var dataToSend = {
-        name: colorName,
+        name: materialName,
         description: colorDescription,
     }
-    if (colorId) {
-        dataToSend.id = colorId;
+    if (materialId) {
+        dataToSend.id = materialId;
         dataToSend.updatedDate = currentTime;
     } else {
         dataToSend.createdDate = currentTime;
@@ -54,7 +54,6 @@ function saveColor() {
         data: JSON.stringify(dataToSend),
         success: function (response) {
             console.log("Lưu thành công!");
-
             Swal.fire({
                 icon: 'success',
                 title: 'Thành công!',
@@ -66,7 +65,6 @@ function saveColor() {
         },
         error: function (error) {
             console.error("Lỗi khi lưu:", error);
-
             Swal.fire({
                 icon: 'error',
                 title: 'Lỗi!',
@@ -77,26 +75,26 @@ function saveColor() {
 }
 
 // Hàm để cập nhật biểu mẫu với dữ liệu danh mục
-function updateColorForm(element) {
-    var colorId = element.getAttribute("data-color-id");
+function updateMaterialForm(element) {
+    var materialId = element.getAttribute("data-material-id");
     // Thêm thuộc tính để kiểm tra xem add hay update
-    $('#colorForm').attr('color-id-update', colorId);
+    $('#materialForm').attr('material-id-update', materialId);
     // Thực hiện AJAX request để lấy dữ liệu danh mục từ backend
     $.ajax({
         type: 'GET',
-        url: '/admin/colors/formUpdate/' + categoryId,
+        url: '/admin/materials/formUpdate/' + categoryId,
         success: function (category) {
             // Điền dữ liệu vào các trường biểu mẫu
-            $('#colorName').val(category.name);
-            $('#colorDescription').val(category.description);
+            $('#materialName').val(category.name);
+            $('#materialDescription').val(category.description);
 
             // Hiển thị hộp thoại modal
-            $('#ColorModal').modal('show');
+            $('#MaterialModal').modal('show');
 
             // Lắng nghe sự kiện đóng modal
-            $('#ColorModal').on('hidden.bs.modal', function () {
+            $('#MaterialModal').on('hidden.bs.modal', function () {
                 // Xóa thuộc tính category-id-update khi modal đóng
-                $('#colorForm').removeAttr('color-id-update');
+                $('#materialForm').removeAttr('material-id-update');
             });
         },
         error: function (error) {
@@ -112,14 +110,14 @@ function searchAll() {
     // Gửi yêu cầu AJAX
     $.ajax({
         type: 'GET',
-        url: "/admin/colors/search",
+        url: "/admin/materials/search",
         contentType: "application/json",
         data: {
             name: searchInput
         },
         success: function (response) {
             console.log(response);
-            window.location.href = '/admin/colors/search?name=' + encodeURIComponent(searchInput);
+            window.location.href = '/admin/materials/search?name=' + encodeURIComponent(searchInput);
         },
         error: function (error) {
             console.log(error)
@@ -129,12 +127,12 @@ function searchAll() {
 
 //Set Status
 function toggleStatus(checkbox) {
-    var categoryId = checkbox.getAttribute("data-color-id");
+    var categoryId = checkbox.getAttribute("data-material-id");
     // Gửi yêu cầu AJAX để cập nhật trạng thái của danh mục
     //Sử dụng jQuery
     $.ajax({
         type: "POST",
-        url: "/admin/colors/setStatus/" + categoryId,
+        url: "/admin/materials/setStatus/" + categoryId,
         success: function (response) {
             // Xử lý thành công, nếu cần
             console.log("Cập nhật trạng thái thành công");
