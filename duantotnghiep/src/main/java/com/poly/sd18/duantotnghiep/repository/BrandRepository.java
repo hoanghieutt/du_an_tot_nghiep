@@ -1,6 +1,8 @@
 package com.poly.sd18.duantotnghiep.repository;
 
 import com.poly.sd18.duantotnghiep.model.Brand;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,6 +19,18 @@ public interface BrandRepository extends JpaRepository<Brand, Integer> {
             "      ,[created_date]\n" +
             "      ,[updated_date]\n" +
             "  FROM [dbo].[brands]\n" +
-            "WHERE [name] like N'%' + :name + N'%'",nativeQuery = true)
-    List<Brand> search(@Param("name") String name);
+            "WHERE [name] like N'%' + :name + '%'", nativeQuery = true)
+    Page<Brand> searchAll(Pageable pageable, @Param("name") String name);
+
+    @Query(value = "SELECT [id]\n" +
+            "      ,[name]\n" +
+            "      ,[status]\n" +
+            "      ,[description]\n" +
+            "      ,[created_date]\n" +
+            "      ,[updated_date]\n" +
+            "  FROM [dbo].[brands]\n" +
+            "WHERE [name] like N'%' + :name + '%' and [status] = :status", nativeQuery = true)
+    Page<Brand> searchByStatus(Pageable pageable, @Param("name") String name, @Param("status") int status);
+
+    List<Brand> findByName(String name);
 }

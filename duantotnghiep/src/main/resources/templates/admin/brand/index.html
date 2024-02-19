@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/layout/head :: head}"></head>
+<link rel="stylesheet" th:href="@{/assets/css/brand/brand.css}">
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <nav th:replace="~{admin/layout/header :: header}"></nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside th:replace="~{admin/layout/sidebar :: sidebar}"></aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0"><i class="fa-solid fa-layer-group fa-sm"></i> <strong>QUẢN LÝ THƯƠNG HIỆU</strong>
+                        </h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a th:href="@{/admin}">Home</a></li>
+                            <li class="breadcrumb-item active">Thương hiệu</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <div class="main_content">
+            <div class="card">
+                <form th:action="@{/admin/brand/searchAll}" method="get">
+                    <!-- Thêm, hộp thoại tìm kiếm và nút -->
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <!-- Thêm -->
+                        <div class="mr-2">
+                            <i type="button" class="fa-solid fa-square-plus icon-button" id="showFormAdd"></i>
+                        </div>
+                        <!-- Hộp thoại tìm kiếm -->
+                        <div class="input-group w-50">
+                            <input type="text" class="form-control" placeholder="Tìm kiếm..." name="searchInput"
+                                   th:value="${searchInput}">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-outline-secondary">Tìm kiếm</button>
+                            </div>
+                        </div>
+                        <!-- Trạng thái -->
+                        <div class="ml-auto d-flex align-items-center">
+                            <!-- Biểu tượng làm mới-->
+                            <div class="mr-3">
+                                <a th:href="@{/admin/brand}" class="fas fa-sync-alt" id="refreshIcon"></a>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="brandStatus" value="-1"
+                                       th:checked="${brandStatus == null || brandStatus == -1}">
+                                <label class="form-check-label">Tất cả</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="brandStatus" value="0"
+                                       th:checked="${brandStatus == 0}">
+                                <label class="form-check-label">Hoạt động</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="brandStatus" value="1"
+                                       th:checked="${brandStatus == 1}">
+                                <label class="form-check-label">Không hoạt động</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="BrandModal" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Thêm Thương Hiệu</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Your form fields for brand name and description go here -->
+                            <form id="brandForm">
+                                <div class="form-group">
+                                    <label for="brandName">Tên Thương Hiệu:</label>
+                                    <input type="text" class="form-control" id="brandName" name="brandName"
+                                           placeholder="Tên thương hiệu...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="brandDescription">Mô Tả:</label>
+                                    <textarea class="form-control" id="brandDescription" name="brandDescription"
+                                              rows="3" placeholder="Mô tả..."></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" onclick="saveBrand()">Lưu</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <!--Card-header-->
+                <div class="card-header">
+                    <h3 class="card-title"><strong>Danh sách thương hiệu</strong></h3>
+                </div>
+                <!-- /.card-header -->
+
+                <!--Card-body-->
+                <div class="card-body">
+                    <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6"></div>
+                            <div class="col-sm-12 col-md-6"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="example2" class="table table-bordered table-hover dataTable dtr-inline"
+                                       aria-describedby="example2_info">
+                                    <thead>
+                                    <tr class="thead_tr">
+                                        <th class="sorting sorting_asc stt" tabindex="0" aria-controls="example2"
+                                            rowspan="1"
+                                            colspan="1" aria-sort="ascending"
+                                        >STT
+                                        </th>
+                                        <th class="sorting ten_danh_muc" tabindex="0" aria-controls="example2"
+                                            rowspan="1"
+                                            colspan="1"
+                                        >Tên thương hiệu
+                                        </th>
+                                        <th class="sorting mo_ta" tabindex="0" aria-controls="example2" rowspan="1"
+                                            colspan="1"
+                                        >Mô tả
+                                        </th>
+                                        <th class="sorting trang_thai" tabindex="0" aria-controls="example2" rowspan="1"
+                                            colspan="1"
+                                        >Trạng thái
+                                        </th>
+                                        <th class="sorting hanh_dong" tabindex="0" aria-controls="example2" rowspan="1"
+                                            colspan="1"
+                                        >Hành động
+                                        </th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody th:if="${lists.empty}">
+                                    <tr>
+                                        <td colspan="5" class="text-center">Danh sách trống!</td>
+                                    </tr>
+                                    </tbody>
+
+                                    <tbody th:each="brand, index : ${lists}">
+                                    <tr class="even">
+                                        <td class="dtr-control sorting_1 stt" tabindex="0"
+                                            th:text="${index.index + 1}"></td>
+                                        <td class="ten_danh_muc" th:text="${brand.name}"></td>
+                                        <td class="mo_ta" th:text="${brand.description}"></td>
+                                        <td class="trang_thai">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input"
+                                                       th:checked="${brand.status == 0}"
+                                                       th:attr="data-brand-id=${brand.id},id=#{${brand.id}}"
+                                                       onclick="toggleStatus(this)" id="toggleSwitch${brand.id}">
+                                                <label class="custom-control-label"
+                                                       th:attr="for=#{${brand.id}}"></label>
+                                            </div>
+                                        </td>
+                                        <td class="hanh_dong"><a type="button"
+                                                                 class="fa-solid fa-pen-to-square fa-xl"
+                                                                 th:attr="data-brand-id=${brand.id},id=#{${brand.id}}"
+                                                                 onclick="updateBrandForm(this)"></a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr class="tfoot_tr">
+                                        <th rowspan="1" colspan="1">STT</th>
+                                        <th rowspan="1" colspan="1">Tên thương hiệu</th>
+                                        <th rowspan="1" colspan="1">Mô tả</th>
+                                        <th rowspan="1" colspan="1">Trạng thái</th>
+                                        <th rowspan="1" colspan="1">Hành động</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+                                    <a>Hiển thị <strong>[[${lists.getNumberOfElements()}]]</strong> trên tổng số
+                                        <strong>[[${totalCategories}]]</strong></a>
+                                </div>
+                            </div>
+
+                            <!--Pagination-->
+                            <nav th:if="${not lists.empty}" aria-label="Page navigation col-sm-12 col-md-7">
+                                <ul class="pagination">
+                                    <li th:class="${currentPage == 1 ? 'page-item disabled' : 'page-item'}">
+                                        <a th:href="@{/admin/brand(pageNum=${currentPage - 1})}"
+                                           tabindex="0"
+                                           class="page-link" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <li th:each="i:${#numbers.sequence(1,totalPages)}"
+                                        th:class="${currentPage == i ? 'page-item active' : 'page-item'}">
+                                        <a th:href="@{/admin/brand(pageNum=${i})}" th:text="${i}"
+                                           class="page-link"></a>
+                                    </li>
+                                    <li th:class="${currentPage == totalPages ? 'page-item disabled' : 'page-item'}">
+                                        <a th:href="@{/admin/brand(pageNum=${currentPage + 1})}" class="page-link"
+                                           aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <footer th:replace="~{admin/layout/footer :: footer}"></footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- ./script -->
+<div th:replace="~{admin/layout/script :: script}"></div>
+<script th:src="@{/assets/js/brand/brand.js}"></script>
+</body>
+</html>
