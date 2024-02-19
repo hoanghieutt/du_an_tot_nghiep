@@ -24,7 +24,7 @@ public class BrandController {
                          Model model) {
         Page<Brand> lists = brandService.getAll(pageNum);
         model.addAttribute("lists", lists);
-        model.addAttribute("totalCategories", lists.getTotalElements());
+        model.addAttribute("totalBrands", lists.getTotalElements());
         model.addAttribute("totalPages", lists.getTotalPages());
         model.addAttribute("currentPage", pageNum);
         return "/admin/brand/index";
