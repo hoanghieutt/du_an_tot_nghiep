@@ -30,13 +30,15 @@ public class SizeServiceImpl implements SizeService {
     }
 
     @Override
-    public List<Size> searchSizeByName(String name) {
-        return sizeRepository.searchSizeByName(name);
+    public Page<Size> searchSizeByName(Integer pageNum,String name) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 5);
+        return sizeRepository.searchSizeByName(pageable,name);
     }
 
     @Override
-    public List<Size> searchSizeByStatus(Integer status) {
-        return null;
+    public Page<Size> searchSizeByStatus(Integer pageNum, String name, Integer status) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 5);
+        return sizeRepository.searchSizeByStatus(pageable, name, status);
     }
 
     @Override

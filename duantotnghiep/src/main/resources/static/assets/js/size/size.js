@@ -76,6 +76,26 @@ function saveSize() {
     });
 }
 
+// Check trùng Tên thương hiệu
+function checkDuplicateSize(sizeName) {
+    var isDuplicateName;
+    // Gửi yêu cầu AJAX để kiểm tra trùng tên thương hiệu
+    $.ajax({
+        type: "POST",
+        url: "/admin/sizes/checkDuplicateName",
+        contentType: "application/json",
+        data: JSON.stringify({name: sizeName}),
+        async: false,
+        success: function (response) {
+            isDuplicateName = response.isDuplicateName;
+        },
+        error: function (error) {
+            console.error("Lỗi khi kiểm tra trùng tên:", error);
+        }
+    });
+    return isDuplicateName;
+}
+
 // Hàm để cập nhật biểu mẫu với dữ liệu danh mục
 function updateSizeForm(element) {
     var sizeId = element.getAttribute("data-size-id");

@@ -11,8 +11,8 @@ import java.util.List;
 public interface SizeService {
     List<Size> getAllSize();
     Page<Size> getAllSizePages(Integer pageNo);
-    List<Size> searchSizeByName(String name);
-    List<Size> searchSizeByStatus(Integer status);
+    Page<Size> searchSizeByName(Integer pageNum, String name);
+    Page<Size> searchSizeByStatus(Integer pageNum, String name, Integer status);
     Size createSize(SizeDTO sizeDTO);
     Size findSizeById(Integer id);
     Size updateSize(SizeDTO sizeDTO, Integer id);

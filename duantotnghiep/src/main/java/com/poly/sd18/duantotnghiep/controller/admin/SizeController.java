@@ -54,10 +54,22 @@ public class SizeController {
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam("name") String name,
+    public String search(@RequestParam(name = "pageNum", defaultValue = "1") Integer pageNum,
+                         @RequestParam("searchInput") String name,
+                         @RequestParam("sizeStatus") Integer status,
                          Model model) {
-        List<Size> lists = sizeService.searchSizeByName(name);
+        Page<Size> lists;
+        if (status  == -1) {
+            lists = sizeService.searchSizeByName(pageNum, name);
+        }else {
+            lists = sizeService.searchSizeByStatus(pageNum, name, status);
+        }
         model.addAttribute("listSize", lists);
+        model.addAttribute("totalSizes", lists.getTotalElements());
+        model.addAttribute("totalPage", lists.getTotalPages());
+        model.addAttribute("currentPage", pageNum);
+        model.addAttribute("searchInput", name);
+        model.addAttribute("sizeStatus", status);
         return "admin/size/index";
     }
 

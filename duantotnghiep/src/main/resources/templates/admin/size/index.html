@@ -37,34 +37,45 @@
 
             <!--Card-header-->
             <!-- Thêm, hộp thoại tìm kiếm và nút -->
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <div class="mr-2">
-                    <!--Icon thêm-->
-                    <i type="button" class="fa-solid fa-square-plus icon-button" id="showFormAdd"></i>
-                </div>
-                <div class="input-group w-50">
-                    <input type="text" class="form-control" placeholder="Tìm kiếm..." id="searchInput">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" id="searchButton" onclick="searchAll()">
-                            Tìm kiếm
-                        </button>
+            <form th:action="@{/admin/sizes/search}" method="get">
+                <!-- Thêm, hộp thoại tìm kiếm và nút -->
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <!-- Thêm -->
+                    <div class="mr-2">
+                        <i type="button" class="fa-solid fa-square-plus icon-button" id="showFormAdd"></i>
+                    </div>
+                    <!-- Hộp thoại tìm kiếm -->
+                    <div class="input-group w-50">
+                        <input type="text" class="form-control" placeholder="Tìm kiếm..." name="searchInput"
+                               th:value="${searchInput}">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-outline-secondary">Tìm kiếm</button>
+                        </div>
+                    </div>
+                    <!-- Trạng thái -->
+                    <div class="ml-auto d-flex align-items-center">
+                        <!-- Biểu tượng làm mới-->
+                        <div class="mr-3">
+                            <a th:href="@{/admin/sizes}" class="fas fa-sync-alt" id="refreshIcon"></a>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="sizeStatus" value="-1"
+                                   th:checked="${sizeStatus == null || sizeStatus == -1}">
+                            <label class="form-check-label">Tất cả</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="sizeStatus" value="0"
+                                   th:checked="${sizeStatus == 0}">
+                            <label class="form-check-label">Hoạt động</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="sizeStatus" value="1"
+                                   th:checked="${sizeStatus == 1}">
+                            <label class="form-check-label">Không hoạt động</label>
+                        </div>
                     </div>
                 </div>
-                <div class="ml-auto d-flex align-items-center">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="filterRadio" id="showAllRadio" checked>
-                        <label class="form-check-label" for="showAllRadio">Tất cả</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="filterRadio" id="showActiveRadio">
-                        <label class="form-check-label" for="showActiveRadio">Hoạt động</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="filterRadio" id="showInactiveRadio">
-                        <label class="form-check-label" for="showInactiveRadio">Không hoạt động</label>
-                    </div>
-                </div>
-            </div>
+            </form>
 
 
             <!-- Modal -->
