@@ -8,7 +8,7 @@ $(document).ready(function () {
 //Add and update color
 function saveSize() {
     // Lấy dữ liệu từ biểu mẫu
-    var sizeName = $("sizeName").val().trim();
+    var sizeName = $("#sizeName").val().trim();
     var sizeShirtLength = $("#sizeShirtLength").val().trim();
     var sizeShirtWidth = $("#sizeShirtWidth").val().trim();
     var currentTime = moment().format('YYYY-MM-DD');
@@ -42,7 +42,7 @@ function saveSize() {
         shirtLength: sizeShirtLength
     }
     if (sizeId) {
-        dataToSend.id = materialId;
+        dataToSend.id = sizeId;
         dataToSend.updatedDate = currentTime;
     } else {
         dataToSend.createdDate = currentTime;

@@ -1,6 +1,5 @@
 package com.poly.sd18.duantotnghiep.repository;
 
-import com.poly.sd18.duantotnghiep.entity.Color;
 import com.poly.sd18.duantotnghiep.entity.Size;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +13,8 @@ public interface SizeRepository extends JpaRepository<Size, Integer> {
     @Query(value = "SELECT [id]\n" +
             "      ,[name]\n" +
             "      ,[status]\n" +
-            "      ,[description]\n" +
+            "      ,[shirt_length]\n" +
+            "      ,[shirt_width]\n" +
             "      ,[created_date]\n" +
             "      ,[updated_date]\n" +
             "  FROM [dbo].[sizes]\n" +
